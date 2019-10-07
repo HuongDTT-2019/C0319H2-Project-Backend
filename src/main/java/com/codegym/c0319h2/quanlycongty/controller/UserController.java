@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -58,25 +59,32 @@ public class UserController {
             User user = userOptional.get();
             userService.save(user);
         }
-
-        //getImg va delete
-         String pathFile = imgUser + userOptional.get().getAvatar();
-        File file = getFile(pathFile);
-        FileUtils.forceDelete(file);
-        ////
+       if (userOptional.get().getAvatar()== null){
+           //Luu file len serve
+           try {
+               FileCopyUtils.copy(multipartFile.getBytes(), new File(imgUser + fileName));
+           } catch (IOException ex) {
+               ex.printStackTrace();
+           }
+           ///////////////////////
+       }else {
+           //getImg va delete
+           String pathFile = imgUser + userOptional.get().getAvatar();
+           File file = getFile(pathFile);
+           FileUtils.forceDelete(file);
+           ////
+       }
 
         //Luu file len serve
         File uploadedFile = new File(imgUser, fileName);
 
         try {
-            uploadedFile.createNewFile();
-            FileOutputStream fileOutputStream = new FileOutputStream(uploadedFile);
-            fileOutputStream.write(fileName.getBytes());
-            fileOutputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            FileCopyUtils.copy(multipartFile.getBytes(), new File(imgUser + fileName));
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
         ///////////////////////
+
 
             userOptional.get().setAvatar(fileName);
 
