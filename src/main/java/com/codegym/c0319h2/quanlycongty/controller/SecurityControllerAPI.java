@@ -55,6 +55,7 @@ public class SecurityControllerAPI {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = jwtProvider.generateJwtToken(authentication);
+
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
@@ -66,19 +67,16 @@ public class SecurityControllerAPI {
             return new ResponseEntity<>(new ResponseMessage("Fail -> Username is already taken!"),
                     HttpStatus.BAD_REQUEST);
         }
-
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return new ResponseEntity<>(new ResponseMessage("Fail -> Email is already in use!"),
                     HttpStatus.BAD_REQUEST);
         }
-
         // Creating user's account
         User user = new User(signUpRequest.getUsername(),signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
 
         Set<String> strRoles = signUpRequest.getRoles();
         Set<Role> roles = new HashSet<>();
-
         strRoles.forEach(role -> {
             if ("admin".equals(role)) {
                 Role adminRole = roleRepository.findRoleByName(RoleName.ROLE_ADMIN)
@@ -90,10 +88,14 @@ public class SecurityControllerAPI {
                 roles.add(userRole);
             }
         });
-
         user.setRoles(roles);
         userRepository.save(user);
 
         return new ResponseEntity<>(new ResponseMessage("User registered successfully!"), HttpStatus.OK);
     }
+
+
+
+
+
 }

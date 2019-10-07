@@ -1,10 +1,12 @@
 package com.codegym.c0319h2.quanlycongty.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 public class EditUserProfileForm {
-    private String avatar;
+    private MultipartFile avatar;
     private LocalDate birthdate;
 
     @Pattern(regexp = "/^[(][0-9]{2}[)][-][(][0][0-9]{9}[)]$/")
@@ -14,18 +16,18 @@ public class EditUserProfileForm {
     public EditUserProfileForm() {
     }
 
-    public EditUserProfileForm(String avatar, LocalDate birthdate, @Pattern(regexp = "/^[(][0-9]{2}[)][-][(][0][0-9]{9}[)]$/") String phonenumber, String address) {
+    public EditUserProfileForm(MultipartFile avatar, LocalDate birthdate, @Pattern(regexp = "/^[(][0-9]{2}[)][-][(][0][0-9]{9}[)]$/") String phonenumber, String address) {
         this.avatar = avatar;
         this.birthdate = birthdate;
         this.phonenumber = phonenumber;
         this.address = address;
     }
 
-    public String getAvatar() {
+    public MultipartFile getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public void setAvatar(MultipartFile avatar) {
         this.avatar = avatar;
     }
 

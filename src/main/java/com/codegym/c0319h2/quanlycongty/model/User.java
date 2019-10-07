@@ -30,7 +30,19 @@ public class User {
     private Set<Role> roles = new HashSet<>();
     public User() {
     }
-    public User(String username,String email, String password) {
+
+    public User(String username, String password, String email, String avatar, LocalDate birthdate, String phonenumber, String address, Set<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.avatar = avatar;
+        this.birthdate = birthdate;
+        this.phonenumber = phonenumber;
+        this.address = address;
+        this.roles = roles;
+    }
+
+    public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
