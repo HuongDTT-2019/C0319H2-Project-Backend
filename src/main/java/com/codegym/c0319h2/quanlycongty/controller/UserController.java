@@ -58,12 +58,26 @@ public class UserController {
             User user = userOptional.get();
             userService.save(user);
         }
+       if (userOptional.get().getAvatar()== null){
+           //Luu file len serve
+           File uploadedFile = new File(imgUser, fileName);
 
-        //getImg va delete
-         String pathFile = imgUser + userOptional.get().getAvatar();
-        File file = getFile(pathFile);
-        FileUtils.forceDelete(file);
-        ////
+           try {
+               uploadedFile.createNewFile();
+               FileOutputStream fileOutputStream = new FileOutputStream(uploadedFile);
+               fileOutputStream.write(fileName.getBytes());
+               fileOutputStream.close();
+           } catch (IOException e) {
+               e.printStackTrace();
+           }
+           ///////////////////////
+       }else {
+           //getImg va delete
+           String pathFile = imgUser + userOptional.get().getAvatar();
+           File file = getFile(pathFile);
+           FileUtils.forceDelete(file);
+           ////
+       }
 
         //Luu file len serve
         File uploadedFile = new File(imgUser, fileName);
@@ -77,6 +91,7 @@ public class UserController {
             e.printStackTrace();
         }
         ///////////////////////
+
 
             userOptional.get().setAvatar(fileName);
 
