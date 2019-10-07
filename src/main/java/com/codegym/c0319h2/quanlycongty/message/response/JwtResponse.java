@@ -51,7 +51,4 @@ public class JwtResponse {
         return authorities;
     }
 
-    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
-        this.authorities = authorities;
-    }
-}
+   }
