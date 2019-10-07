@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -60,15 +61,10 @@ public class UserController {
         }
        if (userOptional.get().getAvatar()== null){
            //Luu file len serve
-           File uploadedFile = new File(imgUser, fileName);
-
            try {
-               uploadedFile.createNewFile();
-               FileOutputStream fileOutputStream = new FileOutputStream(uploadedFile);
-               fileOutputStream.write(fileName.getBytes());
-               fileOutputStream.close();
-           } catch (IOException e) {
-               e.printStackTrace();
+               FileCopyUtils.copy(multipartFile.getBytes(), new File(imgUser + fileName));
+           } catch (IOException ex) {
+               ex.printStackTrace();
            }
            ///////////////////////
        }else {
@@ -83,12 +79,9 @@ public class UserController {
         File uploadedFile = new File(imgUser, fileName);
 
         try {
-            uploadedFile.createNewFile();
-            FileOutputStream fileOutputStream = new FileOutputStream(uploadedFile);
-            fileOutputStream.write(fileName.getBytes());
-            fileOutputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            FileCopyUtils.copy(multipartFile.getBytes(), new File(imgUser + fileName));
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
         ///////////////////////
 
