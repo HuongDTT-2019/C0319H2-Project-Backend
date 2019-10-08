@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ import java.util.Optional;
 import static org.apache.commons.io.FileUtils.getFile;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 @PropertySource("classpath:application.properties")
 public class UserController {
     @Autowired
@@ -38,8 +39,6 @@ public class UserController {
         }
         return new ResponseEntity<User>(user1, HttpStatus.OK);
     }
-
-
     @PutMapping("/editUser/{username}")
     public ResponseEntity<Void> updateUser(@PathVariable String username, @ModelAttribute EditUserProfileForm Edituser) throws IOException {
         Optional<User> userOptional = userService.findByUserName(username);
