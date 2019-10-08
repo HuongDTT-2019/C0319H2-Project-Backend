@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ import java.util.Optional;
 import static org.apache.commons.io.FileUtils.getFile;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 @PropertySource("classpath:application.properties")
 public class UserController {
     @Autowired
@@ -41,7 +42,7 @@ public class UserController {
     }
 
 
-    @PutMapping("/editUser/{username}")
+    @PutMapping(name = "/editUser/{username}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<User> updateUser(@PathVariable String username,  EditUserProfileForm Edituser, @RequestParam("avatar") MultipartFile multipartFile) throws IOException {
         Optional<User> userOptional = userService.findByUserName(username);
         if (!userOptional.isPresent()){
