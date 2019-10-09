@@ -1,38 +1,46 @@
-package com.codegym.c0319h2.quanlycongty.model;
+package com.codegym.c0319h2.quanlycongty.model.company;
 
-import org.springframework.web.multipart.MultipartFile;
+import javax.persistence.*;
+import java.util.List;
 
-public class CompanyForm {
+@Entity
+@Table(name = "company")
+public class Company {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String shortname;
     private String address;
     private int phonenumber;
     private String email;
-    private MultipartFile logo;
-    private MultipartFile avatar;
+    private String logo;
+    private String information;
+    private String imageCompany;
     private String relationship;
     private String specialize;
     private String language;
-    private String technology;
     private String market;
-    public CompanyForm(){
 
+    @ManyToMany(targetEntity = Technology.class)
+    private List<Technology> technology;
+    public Company() {
     }
 
-    public CompanyForm(String name, String shortname, String address, int phonenumber, String email, MultipartFile logo, MultipartFile avatar, String relationship, String specialize, String language, String technology, String market) {
+    public Company(String name, String shortname, String address, int phonenumber, String email, String logo,String information, String imageCompany, String relationship, String specialize, String language, String market, List<Technology> technology) {
         this.name = name;
         this.shortname = shortname;
         this.address = address;
         this.phonenumber = phonenumber;
         this.email = email;
         this.logo = logo;
-        this.avatar = avatar;
+        this.information = information;
+        this.imageCompany = imageCompany;
         this.relationship = relationship;
         this.specialize = specialize;
         this.language = language;
-        this.technology = technology;
         this.market = market;
+        this.technology = technology;
     }
 
     public Long getId() {
@@ -83,20 +91,28 @@ public class CompanyForm {
         this.email = email;
     }
 
-    public MultipartFile getLogo() {
+    public String getLogo() {
         return logo;
     }
 
-    public void setLogo(MultipartFile logo) {
+    public void setLogo(String logo) {
         this.logo = logo;
     }
 
-    public MultipartFile getAvatar() {
-        return avatar;
+    public String getInformation() {
+        return information;
     }
 
-    public void setAvatar(MultipartFile avatar) {
-        this.avatar = avatar;
+    public void setInformation(String information) {
+        this.information = information;
+    }
+
+    public String getImageCompany() {
+        return imageCompany;
+    }
+
+    public void setImageCompany(String imageCompany) {
+        this.imageCompany = imageCompany;
     }
 
     public String getRelationship() {
@@ -123,19 +139,19 @@ public class CompanyForm {
         this.language = language;
     }
 
-    public String getTechnology() {
-        return technology;
-    }
-
-    public void setTechnology(String technology) {
-        this.technology = technology;
-    }
-
     public String getMarket() {
         return market;
     }
 
     public void setMarket(String market) {
         this.market = market;
+    }
+
+    public List<Technology> getTechnology() {
+        return technology;
+    }
+
+    public void setTechnology(List<Technology> technology) {
+        this.technology = technology;
     }
 }

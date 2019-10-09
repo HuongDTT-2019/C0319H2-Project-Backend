@@ -28,7 +28,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Value(value = "${file.upload-dir}")
+    @Value(value = "${file.upload-imageUser}")
     private String imgUser;
 
     @GetMapping("/getUser/{name}")
@@ -85,12 +85,8 @@ public class UserController {
             ex.printStackTrace();
         }
         ///////////////////////
-
-
             userOptional.get().setAvatar(fileName);
-
             userOptional.get().setAddress(Edituser.getAddress());
-
             userOptional.get().setBirthdate(Edituser.getBirthdate());
             userOptional.get().setPhonenumber(Edituser.getPhonenumber());
             User user = userOptional.get();
