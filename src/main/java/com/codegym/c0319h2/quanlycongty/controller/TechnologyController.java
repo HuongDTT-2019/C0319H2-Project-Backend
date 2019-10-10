@@ -23,7 +23,7 @@ public class TechnologyController {
         if (technologies==null){
             return new ResponseEntity<Iterable<Technology>>(HttpStatus.NO_CONTENT);
         }else {
-            return  new ResponseEntity<Iterable<Technology>>(HttpStatus.OK);
+            return  new ResponseEntity<Iterable<Technology>>(technologies,HttpStatus.OK);
         }
     }
     @PostMapping("/manager/create-tech")
