@@ -27,7 +27,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Value(value = "${file.upload-dir}")
+    @Value(value = "${file.upload-imageUser}")
     private String imgUser;
 
     @GetMapping("/getUser/{name}")
@@ -101,6 +101,8 @@ public class UserController {
                 userService.save(user);
             }
         }
+        
         return new ResponseEntity<Void>( HttpStatus.OK);
+
     }
 }
