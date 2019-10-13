@@ -1,8 +1,10 @@
-package com.codegym.c0319h2.quanlycongty.model;
+package com.codegym.c0319h2.quanlycongty.model.company;
 
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 public class CompanyForm {
@@ -13,24 +15,25 @@ public class CompanyForm {
     private int phonenumber;
     private String email;
     private MultipartFile logo;
-    private ArrayList<MultipartFile> avatar= new ArrayList<>();
+    private String information;
+    private MultipartFile imageCompany;
     private String relationship;
     private String specialize;
     private String language;
     private String technology;
     private String market;
     public CompanyForm(){
-
     }
 
-    public CompanyForm(String name, String shortname, String address, int phonenumber, String email, MultipartFile logo, ArrayList<MultipartFile> avatar, String relationship, String specialize, String language, String technology, String market) {
+    public CompanyForm(String name, String shortname, String address, int phonenumber, String email, MultipartFile logo, String information, MultipartFile imageCompany, String relationship, String specialize, String language, String technology, String market) {
         this.name = name;
         this.shortname = shortname;
         this.address = address;
         this.phonenumber = phonenumber;
         this.email = email;
         this.logo = logo;
-        this.avatar = avatar;
+        this.information = information;
+        this.imageCompany = imageCompany;
         this.relationship = relationship;
         this.specialize = specialize;
         this.language = language;
@@ -94,12 +97,20 @@ public class CompanyForm {
         this.logo = logo;
     }
 
-    public ArrayList<MultipartFile> getAvatar() {
-        return avatar;
+    public String getInformation() {
+        return information;
     }
 
-    public void setAvatar(ArrayList<MultipartFile> avatar) {
-        this.avatar = avatar;
+    public void setInformation(String information) {
+        this.information = information;
+    }
+
+    public MultipartFile getImageCompany() {
+        return imageCompany;
+    }
+
+    public void setImageCompany(MultipartFile imageCompany) {
+        this.imageCompany = imageCompany;
     }
 
     public String getRelationship() {
@@ -126,8 +137,16 @@ public class CompanyForm {
         this.language = language;
     }
 
-    public String getTechnology() {
-        return technology;
+    public List<Technology> getTechnology() {
+        List<Technology> lstOutput = null;
+        ObjectMapper om = new ObjectMapper();
+        JavaType type =  om.getTypeFactory().constructCollectionType(List.class, Technology.class);
+        try {
+            lstOutput = om.readValue(this.technology,type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return lstOutput;
     }
 
     public void setTechnology(String technology) {

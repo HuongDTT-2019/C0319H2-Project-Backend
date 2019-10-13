@@ -1,7 +1,6 @@
 package com.codegym.c0319h2.quanlycongty.service.CompanyService.impl;
 
-import com.codegym.c0319h2.quanlycongty.model.Company;
-import com.codegym.c0319h2.quanlycongty.model.User;
+import com.codegym.c0319h2.quanlycongty.model.company.Company;
 import com.codegym.c0319h2.quanlycongty.repository.CompanyRepository;
 import com.codegym.c0319h2.quanlycongty.service.CompanyService.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;

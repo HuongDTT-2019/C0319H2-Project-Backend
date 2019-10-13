@@ -1,15 +1,11 @@
-package com.codegym.c0319h2.quanlycongty.model;
-
-import org.hibernate.annotations.Type;
+package com.codegym.c0319h2.quanlycongty.model.company;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "company")
-public class Company implements Serializable {
+public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -19,30 +15,32 @@ public class Company implements Serializable {
     private int phonenumber;
     private String email;
     private String logo;
-
-    private ArrayList<String> avatar = new ArrayList<>();
+    private String information;
+    private String imageCompany;
     private String relationship;
     private String specialize;
     private String language;
-    private String technology;
     private String market;
-    public Company(){
 
+    @ManyToMany(targetEntity = Technology.class)
+    private List<Technology> technology;
+    public Company() {
     }
 
-    public Company(String name, String shortname, String address, int phonenumber, String email, String logo,ArrayList<String> avatar, String relationship, String specialize, String language, String technology, String market) {
+    public Company(String name, String shortname, String address, int phonenumber, String email, String logo,String information, String imageCompany, String relationship, String specialize, String language, String market, List<Technology> technology) {
         this.name = name;
         this.shortname = shortname;
         this.address = address;
         this.phonenumber = phonenumber;
         this.email = email;
         this.logo = logo;
-        this.avatar = avatar;
+        this.information = information;
+        this.imageCompany = imageCompany;
         this.relationship = relationship;
         this.specialize = specialize;
         this.language = language;
-        this.technology = technology;
         this.market = market;
+        this.technology = technology;
     }
 
     public Long getId() {
@@ -101,12 +99,20 @@ public class Company implements Serializable {
         this.logo = logo;
     }
 
-    public ArrayList<String>  getAvatar() {
-        return avatar;
+    public String getInformation() {
+        return information;
     }
 
-    public void setAvatar(ArrayList<String> avatar) {
-        this.avatar = avatar;
+    public void setInformation(String information) {
+        this.information = information;
+    }
+
+    public String getImageCompany() {
+        return imageCompany;
+    }
+
+    public void setImageCompany(String imageCompany) {
+        this.imageCompany = imageCompany;
     }
 
     public String getRelationship() {
@@ -133,19 +139,19 @@ public class Company implements Serializable {
         this.language = language;
     }
 
-    public String getTechnology() {
-        return technology;
-    }
-
-    public void setTechnology(String technology) {
-        this.technology = technology;
-    }
-
     public String getMarket() {
         return market;
     }
 
     public void setMarket(String market) {
         this.market = market;
+    }
+
+    public List<Technology> getTechnology() {
+        return technology;
+    }
+
+    public void setTechnology(List<Technology> technology) {
+        this.technology = technology;
     }
 }
