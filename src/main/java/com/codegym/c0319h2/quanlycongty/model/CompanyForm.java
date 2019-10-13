@@ -2,6 +2,9 @@ package com.codegym.c0319h2.quanlycongty.model;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CompanyForm {
     private Long id;
     private String name;
@@ -10,7 +13,7 @@ public class CompanyForm {
     private int phonenumber;
     private String email;
     private MultipartFile logo;
-    private MultipartFile avatar;
+    private ArrayList<MultipartFile> avatar= new ArrayList<>();
     private String relationship;
     private String specialize;
     private String language;
@@ -20,7 +23,7 @@ public class CompanyForm {
 
     }
 
-    public CompanyForm(String name, String shortname, String address, int phonenumber, String email, MultipartFile logo, MultipartFile avatar, String relationship, String specialize, String language, String technology, String market) {
+    public CompanyForm(String name, String shortname, String address, int phonenumber, String email, MultipartFile logo, ArrayList<MultipartFile> avatar, String relationship, String specialize, String language, String technology, String market) {
         this.name = name;
         this.shortname = shortname;
         this.address = address;
@@ -91,11 +94,11 @@ public class CompanyForm {
         this.logo = logo;
     }
 
-    public MultipartFile getAvatar() {
+    public ArrayList<MultipartFile> getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(MultipartFile avatar) {
+    public void setAvatar(ArrayList<MultipartFile> avatar) {
         this.avatar = avatar;
     }
 

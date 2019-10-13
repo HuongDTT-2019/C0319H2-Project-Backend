@@ -1,10 +1,15 @@
 package com.codegym.c0319h2.quanlycongty.model;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "company")
-public class Company {
+public class Company implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -14,7 +19,8 @@ public class Company {
     private int phonenumber;
     private String email;
     private String logo;
-    private String avatar;
+
+    private ArrayList<String> avatar = new ArrayList<>();
     private String relationship;
     private String specialize;
     private String language;
@@ -24,7 +30,7 @@ public class Company {
 
     }
 
-    public Company(String name, String shortname, String address, int phonenumber, String email, String logo, String avatar, String relationship, String specialize, String language, String technology, String market) {
+    public Company(String name, String shortname, String address, int phonenumber, String email, String logo,ArrayList<String> avatar, String relationship, String specialize, String language, String technology, String market) {
         this.name = name;
         this.shortname = shortname;
         this.address = address;
@@ -95,11 +101,11 @@ public class Company {
         this.logo = logo;
     }
 
-    public String getAvatar() {
+    public ArrayList<String>  getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public void setAvatar(ArrayList<String> avatar) {
         this.avatar = avatar;
     }
 

@@ -16,6 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -26,43 +29,59 @@ public class CompanyController {
 
     @Value(value = "${file.upload-dir}")
     private String imgUser;
+    @Value(value = "${file.upload-dir-logo}")
+    private String imgLogo;
+    @Value(value = "${file.upload-dir-avatar}")
+   private String imgAvatar;
 
     @GetMapping(value = "/manager/list-company")
-    public ResponseEntity<Iterable<Company>> findAllCompany(){
+    public ResponseEntity<Iterable<Company>> findAllCompany() {
         Iterable<Company> companies = companyService.findAllCompany();
-        if (companies == null){
+        if (companies == null) {
             System.out.println("Không có dữ liệu");
             return new ResponseEntity<Iterable<Company>>(HttpStatus.NO_CONTENT);
-        }else {
+        } else {
             return new ResponseEntity<Iterable<Company>>(companies, HttpStatus.OK);
         }
     }
-    @PostMapping(value = "/manager/create-company", consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Company> updateUser(CompanyForm companyForm, @RequestParam("avatar") MultipartFile multipartFileAvt, @RequestParam("logo") MultipartFile multipartFileLogo) throws IOException {
+
+    @PostMapping(value = "/manager/create-company")
+    public ResponseEntity<Company> updateUser(@ModelAttribute CompanyForm companyForm) throws IOException {
 
         //avatar
-        String fileNameAvt = multipartFileAvt.getOriginalFilename();
-        File uploadedFile = new File(imgUser, fileNameAvt);
-
-        try {
-            FileCopyUtils.copy(multipartFileAvt.getBytes(), new File(imgUser + fileNameAvt));
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        ArrayList<MultipartFile> fileImageCompany = companyForm.getAvatar();
+        ArrayList<String> fileName = new ArrayList<>();
+        ArrayList<File> saveFiles = new ArrayList<>();
+        for (MultipartFile multipartFile : fileImageCompany) {
+                fileName.add(multipartFile.getOriginalFilename());
         }
+        for(String fileNames:fileName){
+            saveFiles.add(new File(imgAvatar+fileNames));
+        }
+        for (MultipartFile multipartFile : fileImageCompany) {
+            for (File saveFile: saveFiles){
+                try {
+                    FileCopyUtils.copy(multipartFile.getBytes(), saveFile);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+
 
         //logo
+        MultipartFile multipartFileLogo = companyForm.getLogo();
         String fileNameLogo = multipartFileLogo.getOriginalFilename();
-        File uploadedFileLogo = new File(imgUser, fileNameLogo);
+        assert fileNameLogo != null;
+        File uploadedFileLogo = new File(imgLogo, fileNameLogo);
 
         try {
-            FileCopyUtils.copy(multipartFileLogo.getBytes(), new File(imgUser + fileNameLogo));
+            FileCopyUtils.copy(multipartFileLogo.getBytes(), uploadedFileLogo);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
-
         Company company = new Company(companyForm.getName(), companyForm.getShortname(), companyForm.getAddress()
-                , companyForm.getPhonenumber(), companyForm.getEmail(), fileNameLogo, fileNameAvt
+                , companyForm.getPhonenumber(), companyForm.getEmail(), fileNameLogo, fileName
                 , companyForm.getRelationship(), companyForm.getSpecialize(), companyForm.getLanguage(), companyForm.getTechnology(), companyForm.getMarket());
         companyService.saveCompany(company);
         return new ResponseEntity<Company>(company, HttpStatus.OK);
